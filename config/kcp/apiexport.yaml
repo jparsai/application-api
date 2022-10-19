@@ -14,10 +14,10 @@ spec:
   - group: ""
     resource: "configmaps"
   latestResourceSchemas:
-    - v202209212055.applicationpromotionruns.appstudio.redhat.com
-    - v202209212055.applications.appstudio.redhat.com
-    - v202209212055.applicationsnapshotenvironmentbindings.appstudio.redhat.com
-    - v202209212055.applicationsnapshots.appstudio.redhat.com
-    - v202209212055.componentdetectionqueries.appstudio.redhat.com
-    - v202209212055.components.appstudio.redhat.com
-    - v202209212055.environments.appstudio.redhat.com
+    - v202210191158.applications.appstudio.redhat.com
+    - v202210191158.componentdetectionqueries.appstudio.redhat.com
+    - v202210191158.components.appstudio.redhat.com
+    - v202210191158.environments.appstudio.redhat.com
+    - v202210191158.promotionruns.appstudio.redhat.com
+    - v202210191158.snapshotenvironmentbindings.appstudio.redhat.com
+    - v202210191158.snapshots.appstudio.redhat.com
