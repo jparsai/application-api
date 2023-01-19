@@ -17,6 +17,9 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
+	"reflect"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
@@ -49,7 +52,21 @@ func (r *Snapshot) ValidateCreate() error {
 func (r *Snapshot) ValidateUpdate(old runtime.Object) error {
 	snapshotlog.Info("validate update", "name", r.Name)
 
-	// TODO(user): fill in your validation logic upon object update.
+	switch old := old.(type) {
+	case *Snapshot:
+
+		if !reflect.DeepEqual(r.Spec.Application, old.Spec.Application) {
+			return fmt.Errorf("application cannot be updated to %+v", r.Spec.Application)
+		}
+
+		if !reflect.DeepEqual(r.Spec.Components, old.Spec.Components) {
+			return fmt.Errorf("components cannot be updated to %+v", r.Spec.Components)
+		}
+
+	default:
+		return fmt.Errorf("runtime object is not of type Snapshot")
+	}
+
 	return nil
 }
 
