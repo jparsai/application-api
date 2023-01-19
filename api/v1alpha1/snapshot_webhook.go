@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
@@ -40,7 +42,9 @@ var _ webhook.Validator = &Snapshot{}
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
 func (r *Snapshot) ValidateCreate() error {
 	snapshotlog.Info("validate create", "name", r.Name)
-
+	fmt.Println("111###################")
+	fmt.Println("111###################")
+	fmt.Println("111###################")
 	// TODO(user): fill in your validation logic upon object creation.
 	return nil
 }
@@ -48,7 +52,9 @@ func (r *Snapshot) ValidateCreate() error {
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
 func (r *Snapshot) ValidateUpdate(old runtime.Object) error {
 	snapshotlog.Info("validate update", "name", r.Name)
-
+	fmt.Println("222###################")
+	fmt.Println("222###################")
+	fmt.Println("222###################")
 	// TODO(user): fill in your validation logic upon object update.
 	return nil
 }
@@ -56,7 +62,9 @@ func (r *Snapshot) ValidateUpdate(old runtime.Object) error {
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
 func (r *Snapshot) ValidateDelete() error {
 	snapshotlog.Info("validate delete", "name", r.Name)
-
+	fmt.Println("333###################")
+	fmt.Println("333###################")
+	fmt.Println("333###################")
 	// TODO(user): fill in your validation logic upon object deletion.
 	return nil
 }
