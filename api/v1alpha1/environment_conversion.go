@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
+
 	"github.com/redhat-appstudio/application-api/api/v1alpha2"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
@@ -30,6 +32,9 @@ import (
 // Hub marks this type as a conversion hub.
 // ConvertTo converts this ITS to the Hub version (v1beta1).
 func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
+	fmt.Println("111 ###############################")
+	fmt.Println("111 ###############################")
+
 	dst := dstRaw.(*v1alpha2.Environment)
 	dst.ObjectMeta = src.ObjectMeta
 
@@ -45,6 +50,9 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 }
 
 func (dst *Environment) ConvertFrom(srcRaw conversion.Hub) error {
+	fmt.Println("222 ###############################")
+	fmt.Println("222 ###############################")
+
 	src := srcRaw.(*v1alpha2.Environment)
 	dst.ObjectMeta = src.ObjectMeta
 
