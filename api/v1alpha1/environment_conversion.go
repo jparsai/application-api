@@ -43,8 +43,11 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 	dst.Spec.ParentEnvironment = src.Spec.ParentEnvironment
 	dst.Spec.Tags = src.Spec.Tags
 	dst.Spec.DisplayName = src.Spec.DisplayName
-	//dst.Spec.Configuration = src.Spec.Configuration
-	//dst.Spec.Target = src.Spec.UnstableConfigurationFields
+	dst.Spec.Target.ClusterType = v1alpha2.ConfigurationClusterType(src.Spec.UnstableConfigurationFields.ClusterType)
+	dst.Spec.Target.KubernetesClusterCredentials = v1alpha2.KubernetesClusterCredentials(src.Spec.UnstableConfigurationFields.KubernetesClusterCredentials)
+
+	//dst.Spec.Configuration.Env = src.Spec.Configuration.Env
+	//dst.Spec.Configuration.Target = src.Spec.Configuration.Target
 
 	return nil
 }
