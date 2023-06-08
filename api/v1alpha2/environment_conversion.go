@@ -25,6 +25,9 @@ import (
 )
 
 func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
+	fmt.Println("000 ###############################")
+	fmt.Println("000 ###############################")
+
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
 		Complete()

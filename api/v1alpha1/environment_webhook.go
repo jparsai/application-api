@@ -30,6 +30,9 @@ import (
 var environmentlog = logf.Log.WithName("environment-resource")
 
 func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
+	fmt.Println("000 @@@@@@@@@@@@@@@")
+	fmt.Println("000 @@@@@@@@@@@@@@@")
+
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
 		Complete()
@@ -54,6 +57,9 @@ var _ webhook.Validator = &Environment{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
 func (r *Environment) ValidateCreate() error {
+	fmt.Println("111 @@@@@@@@@@@@@@@")
+	fmt.Println("111 @@@@@@@@@@@@@@@")
+
 	environmentlog := environmentlog.WithValues("controllerKind", "Environment").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
 	environmentlog.Info("validating the create request")
 
@@ -67,6 +73,9 @@ func (r *Environment) ValidateCreate() error {
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
 func (r *Environment) ValidateUpdate(old runtime.Object) error {
+	fmt.Println("222 @@@@@@@@@@@@@@@")
+	fmt.Println("222 @@@@@@@@@@@@@@@")
+
 	environmentlog := environmentlog.WithValues("controllerKind", "Environment").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
 	environmentlog.Info("validating the update request")
 
