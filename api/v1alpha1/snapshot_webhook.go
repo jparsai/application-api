@@ -43,7 +43,7 @@ var _ webhook.Validator = &Snapshot{}
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
 func (r *Snapshot) ValidateCreate() error {
 	snapshotlog := snapshotlog.WithValues("controllerKind", "Snapshot").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
-	snapshotlog.Info("validating create")
+	snapshotlog.Info("5555 validating create")
 
 	return nil
 }
@@ -51,17 +51,17 @@ func (r *Snapshot) ValidateCreate() error {
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
 func (r *Snapshot) ValidateUpdate(old runtime.Object) error {
 	snapshotlog := snapshotlog.WithValues("controllerKind", "Snapshot").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
-	snapshotlog.Info("validating update")
+	snapshotlog.Info("55555 validating update")
 
 	switch old := old.(type) {
 	case *Snapshot:
 
 		if !reflect.DeepEqual(r.Spec.Application, old.Spec.Application) {
-			return fmt.Errorf("application field cannot be updated to %+v", r.Spec.Application)
+			return fmt.Errorf("555 application field cannot be updated to %+v", r.Spec.Application)
 		}
 
 		if !reflect.DeepEqual(r.Spec.Components, old.Spec.Components) {
-			return fmt.Errorf("components cannot be updated to %+v", r.Spec.Components)
+			return fmt.Errorf("555 components cannot be updated to %+v", r.Spec.Components)
 		}
 
 	default:

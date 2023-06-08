@@ -22,12 +22,15 @@ import (
 	"github.com/redhat-appstudio/application-api/api/v1alpha1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 )
+
+var environmentlog = logf.Log.WithName("environment-resource")
 
 func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	fmt.Println("000 ###############################")
 	fmt.Println("000 ###############################")
-
+	environmentlog.Info("000 ##################")
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
 		Complete()
@@ -36,6 +39,7 @@ func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
 // Hub marks this type as a conversion hub.
 // ConvertTo converts this ITS to the Hub version (v1beta1).
 func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
+	environmentlog.Info("111 ####")
 	fmt.Println("111 ###############################")
 	fmt.Println("111 ###############################")
 
@@ -53,6 +57,7 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 }
 
 func (dst *Environment) ConvertFrom(srcRaw conversion.Hub) error {
+	environmentlog.Info("222 ####")
 	fmt.Println("222 ###############################")
 	fmt.Println("222 ###############################")
 

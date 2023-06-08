@@ -177,6 +177,7 @@ type EnvironmentStatus struct {
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
+//+kubebuilder:storageversion
 
 // Environment is the Schema for the environments API
 // +kubebuilder:resource:path=environments,shortName=env

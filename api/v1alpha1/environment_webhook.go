@@ -61,11 +61,11 @@ func (r *Environment) ValidateCreate() error {
 	fmt.Println("111 @@@@@@@@@@@@@@@")
 
 	environmentlog := environmentlog.WithValues("controllerKind", "Environment").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
-	environmentlog.Info("validating the create request")
+	environmentlog.Info("validating the create request 11111111")
 
 	// We use the DNS-1123 format for environment names, so ensure it conforms to that specification
 	if len(validation.IsDNS1123Label(r.Name)) != 0 {
-		return fmt.Errorf("invalid environment name: %s, an environment resource name must start with a lower case alphabetical character, be under 63 characters, and can only consist of lower case alphanumeric characters or ‘-’", r.Name)
+		return fmt.Errorf("11111 invalid environment name: %s, an environment resource name must start with a lower case alphabetical character, be under 63 characters, and can only consist of lower case alphanumeric characters or ‘-’", r.Name)
 	}
 
 	return r.validateIngressDomain()
@@ -77,7 +77,7 @@ func (r *Environment) ValidateUpdate(old runtime.Object) error {
 	fmt.Println("222 @@@@@@@@@@@@@@@")
 
 	environmentlog := environmentlog.WithValues("controllerKind", "Environment").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
-	environmentlog.Info("validating the update request")
+	environmentlog.Info("1111 validating the update request 1111111")
 
 	return r.validateIngressDomain()
 }
