@@ -1462,7 +1462,7 @@ spec:
     storage: false
     subresources:
       status: {}
-  - name: v1alpha2
+  - name: v1beta1
     schema:
       openAPIV3Schema:
         description: Environment is the Schema for the environments API

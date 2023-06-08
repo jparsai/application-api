@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha2
+package v1beta1
 
 import (
 	"fmt"
@@ -42,11 +42,10 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 	dst := dstRaw.(*v1alpha1.Environment)
 	dst.ObjectMeta = src.ObjectMeta
 
-	dst.Spec.DisplayName = src.Spec.DisplayName
+	dst.Spec.DisplayName = "DisplayName111"
 	dst.Spec.DeploymentStrategy = v1alpha1.DeploymentStrategyType(src.Spec.DeploymentStrategy)
-	dst.Spec.ParentEnvironment = src.Spec.ParentEnvironment
+	dst.Spec.ParentEnvironment = "ParentEnvironment111"
 	dst.Spec.Tags = src.Spec.Tags
-	dst.Spec.DisplayName = src.Spec.DisplayName
 	//dst.Spec.Configuration = src.Spec.Configuration
 	//dst.Spec.Target = src.Spec.UnstableConfigurationFields
 
@@ -60,11 +59,10 @@ func (dst *Environment) ConvertFrom(srcRaw conversion.Hub) error {
 	src := srcRaw.(*v1alpha1.Environment)
 	dst.ObjectMeta = src.ObjectMeta
 
-	dst.Spec.DisplayName = src.Spec.DisplayName
+	dst.Spec.DisplayName = "DisplayName222"
 	dst.Spec.DeploymentStrategy = DeploymentStrategyType(src.Spec.DeploymentStrategy)
-	dst.Spec.ParentEnvironment = src.Spec.ParentEnvironment
+	dst.Spec.ParentEnvironment = "ParentEnvironment222"
 	dst.Spec.Tags = src.Spec.Tags
-	dst.Spec.DisplayName = src.Spec.DisplayName
 	//dst.Spec.Configuration = src.Spec.Configuration
 	//dst.Spec.UnstableConfigurationFields = src.Spec.Target
 
