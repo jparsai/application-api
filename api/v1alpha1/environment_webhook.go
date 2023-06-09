@@ -59,7 +59,7 @@ func (r *Environment) ValidateCreate() error {
 
 	// We use the DNS-1123 format for environment names, so ensure it conforms to that specification
 	if len(validation.IsDNS1123Label(r.Name)) != 0 {
-		return fmt.Errorf("invalid environment name: %s, an environment resource name must start with a lower case alphabetical character, be under 63 characters, and can only consist of lower case alphanumeric characters or ‘-’", r.Name)
+		return fmt.Errorf("111 invalid environment name: %s, an environment resource name must start with a lower case alphabetical character, be under 63 characters, and can only consist of lower case alphanumeric characters or ‘-’", r.Name)
 	}
 
 	return r.validateIngressDomain()
@@ -68,7 +68,7 @@ func (r *Environment) ValidateCreate() error {
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
 func (r *Environment) ValidateUpdate(old runtime.Object) error {
 	environmentlog := environmentlog.WithValues("controllerKind", "Environment").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
-	environmentlog.Info("validating the update request")
+	environmentlog.Info("111 validating the update request")
 
 	return r.validateIngressDomain()
 }

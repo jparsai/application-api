@@ -17,6 +17,8 @@ limitations under the License.
 package v1beta1
 
 import (
+	"fmt"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 )
@@ -25,6 +27,7 @@ import (
 var environmentlog = logf.Log.WithName("environment-resource")
 
 func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
+	fmt.Println("$$$$$$$$$$$$$$$ SetupWebhookWithManager")
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
 		Complete()
