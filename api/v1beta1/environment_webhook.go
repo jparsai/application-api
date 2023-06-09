@@ -27,7 +27,7 @@ import (
 var environmentlog = logf.Log.WithName("environment-resource")
 
 func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
-	fmt.Println("$$$$$$$$$$$$$$$ SetupWebhookWithManager")
+	fmt.Println("$$$$$$$$$$$$$$ SetupWebhookWithManager")
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
 		Complete()
