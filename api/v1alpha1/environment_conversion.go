@@ -8,8 +8,6 @@ import (
 // ConvertTo converts this Memcached to the Hub version (vbeta1).
 func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 
-	environmentlog.Info("### ConvertTo ###")
-
 	dst := dstRaw.(*v1beta1.Environment)
 
 	dst.ObjectMeta = src.ObjectMeta
@@ -24,8 +22,6 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 
 // ConvertFrom converts from the Hub version (vbeta1) to this version.
 func (dst *Environment) ConvertFrom(srcRaw conversion.Hub) error {
-
-	environmentlog.Info("### ConvertFrom ###")
 
 	src := srcRaw.(*v1beta1.Environment)
 

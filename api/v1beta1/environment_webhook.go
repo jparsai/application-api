@@ -19,18 +19,64 @@ package v1beta1
 import (
 	"fmt"
 
+	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 )
 
 // log is for logging in this package.
 var environmentlog = logf.Log.WithName("environment-resource")
 
 func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
-	fmt.Println("$$$$$$$$$$$$$$ SetupWebhookWithManager")
+	fmt.Println("00000 @@@@@@@@@@@#################")
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
 		Complete()
 }
 
 // TODO(user): EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
+
+//+kubebuilder:webhook:path=/mutate-appstudio-redhat-com-v1beta1-environment,mutating=true,failurePolicy=fail,sideEffects=None,groups=appstudio.redhat.com,resources=environments,verbs=create;update,versions=v1beta1,name=menvironment.kb.io,admissionReviewVersions=v1
+
+var _ webhook.Defaulter = &Environment{}
+
+// Default implements webhook.Defaulter so a webhook will be registered for the type
+func (r *Environment) Default() {
+	environmentlog.Info("default", "name", r.Name)
+
+	// TODO(user): fill in your defaulting logic.
+}
+
+// TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
+//+kubebuilder:webhook:path=/validate-appstudio-redhat-com-v1beta1-environment,mutating=false,failurePolicy=fail,sideEffects=None,groups=appstudio.redhat.com,resources=environments,verbs=create;update,versions=v1beta1,name=venvironment.kb.io,admissionReviewVersions=v1
+
+var _ webhook.Validator = &Environment{}
+
+// ValidateCreate implements webhook.Validator so a webhook will be registered for the type
+func (r *Environment) ValidateCreate() error {
+	environmentlog.Info("validate create", "name", r.Name)
+
+	fmt.Println("11111 @@@@@@@@@@@#################")
+
+	// TODO(user): fill in your validation logic upon object creation.
+	return nil
+}
+
+// ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
+func (r *Environment) ValidateUpdate(old runtime.Object) error {
+	environmentlog.Info("validate update", "name", r.Name)
+
+	fmt.Println("22222 @@@@@@@@@@@#################")
+
+	// TODO(user): fill in your validation logic upon object update.
+	return nil
+}
+
+// ValidateDelete implements webhook.Validator so a webhook will be registered for the type
+func (r *Environment) ValidateDelete() error {
+	environmentlog.Info("validate delete", "name", r.Name)
+
+	// TODO(user): fill in your validation logic upon object deletion.
+	return nil
+}
