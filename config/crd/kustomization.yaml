@@ -14,6 +14,13 @@ resources:
 - bases/appstudio.redhat.com_deploymenttargets.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
+patchesStrategicMerge:
+# [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix.
+# patches here are for enabling the conversion webhook for each CRD
+- patches/webhook_in_environments.yaml
+#+kubebuilder:scaffold:crdkustomizewebhookpatch
+
+
 # the following config is for teaching kustomize how to do kustomization for CRDs.
 configurations:
 - kustomizeconfig.yaml
