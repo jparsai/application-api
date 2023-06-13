@@ -1,5 +1,5 @@
 /*
-Copyright 2022-2023.
+Copyright 2021-2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha1
+package v1beta1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -22,7 +22,6 @@ import (
 
 // EnvironmentSpec defines the desired state of Environment
 type EnvironmentSpec struct {
-
 	// DEPRECATED: Type is whether the Environment is a POC or non-POC environment
 	// - This field is deprecated, and should not be used.
 	Type EnvironmentType `json:"type,omitempty"`
@@ -46,9 +45,8 @@ type EnvironmentSpec struct {
 	// the Environment.
 	Configuration EnvironmentConfiguration `json:"configuration,omitempty"`
 
-	// UnstableConfigurationFields are experimental/prototype: the API has not been finalized here, and is subject to breaking changes.
-	// See comment on UnstableEnvironmentConfiguration for details.
-	UnstableConfigurationFields *UnstableEnvironmentConfiguration `json:"unstableConfigurationFields,omitempty"`
+	// See comment on TargetConfiguration for details.
+	Target *TargetConfiguration `json:"target,omitempty"`
 }
 
 // DEPRECATED: EnvironmentType should no longer be used, and has no replacement.
@@ -77,12 +75,12 @@ const (
 	DeploymentStrategy_AppStudioAutomated DeploymentStrategyType = "AppStudioAutomated"
 )
 
-// UnstableEnvironmentConfiguration contains fields that are related to configuration of the target environment:
+// TargetConfiguration contains fields that are related to configuration of the target environment:
 // - credentials for connecting to the cluster
 //
 // Note: as of this writing (Jul 2022), I expect the contents of this struct to undergo major changes, and the API should not be considered
 // complete, or even a reflection of final desired state.
-type UnstableEnvironmentConfiguration struct {
+type TargetConfiguration struct {
 	// ClusterType indicates whether the target environment is Kubernetes or OpenShift
 	ClusterType ConfigurationClusterType `json:"clusterType,omitempty"`
 
@@ -177,8 +175,8 @@ type EnvironmentStatus struct {
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:resource:path=environments,shortName=env
-// +kubebuilder:deprecatedversion:warning="The v1alpha1 version is deprecated and will be automatically migrated to v1beta1"
 
 // Environment is the Schema for the environments API
 type Environment struct {
@@ -206,4 +204,14 @@ type EnvironmentList struct {
 
 func init() {
 	SchemeBuilder.Register(&Environment{}, &EnvironmentList{})
+}
+
+// EnvVarPair describes environment variables to use for the component
+type EnvVarPair struct {
+
+	// Name is the environment variable name
+	Name string `json:"name"`
+
+	// Value is the environment variable value
+	Value string `json:"value"`
 }
