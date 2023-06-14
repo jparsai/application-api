@@ -1209,9 +1209,19 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
-  creationTimestamp: null
   name: environments.appstudio.redhat.com
 spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: webhook-service
+          namespace: system
+          path: /validate-appstudio-redhat-com-v1beta1-environment
+      conversionReviewVersions:
+      - v1alpha1
+      - v1beta1
   group: appstudio.redhat.com
   names:
     kind: Environment
