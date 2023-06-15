@@ -10,6 +10,6 @@ spec:
       conversionReviewVersions: ["v1alpha1", "v1beta1"]
       clientConfig:
         service:
-          namespace: system
-          name: webhook-service
+          namespace: gitops
+          name: gitops-core-service-webhook-service
           path: /validate-appstudio-redhat-com-v1beta1-environment
