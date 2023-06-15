@@ -9,8 +9,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: gitops-core-service-webhook-service
-      namespace: gitops
+      name: webhook-service
+      namespace: system
       path: /mutate-appstudio-redhat-com-v1beta1-environment
   failurePolicy: Fail
   name: menvironment.kb.io
@@ -116,8 +116,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: gitops-core-service-webhook-service
-      namespace: gitops
+      name: webhook-service
+      namespace: system
       path: /validate-appstudio-redhat-com-v1beta1-environment
   failurePolicy: Fail
   name: venvironment.kb.io
