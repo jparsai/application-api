@@ -1216,7 +1216,7 @@ spec:
     webhook:
       clientConfig:
         service:
-          name: gitops-core-service-webhook-service
+          name: gitops-appstudio-service-webhook-service
           namespace: gitops
           path: /validate-appstudio-redhat-com-v1beta1-environment
       conversionReviewVersions:
