@@ -247,6 +247,12 @@ spec:
             description: ComponentDetectionQuerySpec defines the desired state of
               ComponentDetectionQuery
             properties:
+              generateComponentName:
+                description: It defines if should generate random characters at the
+                  end of the component name instead of a predicted default value The
+                  default value is false. If the value is set to true, component name
+                  will always have random characters appended Optional.
+                type: boolean
               git:
                 description: Git Source for a Component. Required.
                 properties:
@@ -2183,6 +2189,10 @@ spec:
                 items:
                   description: BindingComponentStatus contains the status of the components
                   properties:
+                    generatedRouteName:
+                      description: GeneratedRouteName is the name of the route that
+                        was generated for the Component, if a Route was generated.
+                      type: string
                     gitopsRepository:
                       description: GitOpsRepository contains the Git URL, path, branch,
                         and most recent commit id for the component
