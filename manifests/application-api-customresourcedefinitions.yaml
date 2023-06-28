@@ -1215,6 +1215,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
+    service.beta.openshift.io/inject-cabundle: "true"
   name: environments.appstudio.redhat.com
 spec:
   conversion:
