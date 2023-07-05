@@ -4,15 +4,14 @@ import (
 	"fmt"
 
 	"github.com/redhat-appstudio/application-api/api/v1beta1"
-	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
-func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewWebhookManagedBy(mgr).
-		For(r).
-		Complete()
-}
+//func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
+//	return ctrl.NewWebhookManagedBy(mgr).
+//		For(r).
+//		Complete()
+//}
 
 // ConvertTo converts this Memcached to the Hub version (vbeta1).
 func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
