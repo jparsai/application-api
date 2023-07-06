@@ -20,9 +20,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // EnvironmentSpec defines the desired state of Environment
 type EnvironmentSpec struct {
 	// DEPRECATED: Type is whether the Environment is a POC or non-POC environment
@@ -182,6 +179,7 @@ type EnvironmentStatus struct {
 // +kubebuilder:storageversion
 
 // Environment is the Schema for the environments API
+// +kubebuilder:resource:path=environments,shortName=env
 type Environment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

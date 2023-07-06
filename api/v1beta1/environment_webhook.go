@@ -20,6 +20,7 @@ import (
 	"fmt"
 
 	runtime "k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/util/validation"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
@@ -34,8 +35,6 @@ func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
 		Complete()
 }
 
-// TODO(user): EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-
 //+kubebuilder:webhook:path=/mutate-appstudio-redhat-com-v1beta1-environment,mutating=true,failurePolicy=fail,sideEffects=None,groups=appstudio.redhat.com,resources=environments,verbs=create;update,versions=v1beta1,name=menvironment.kb.io,admissionReviewVersions=v1
 
 var _ webhook.Defaulter = &Environment{}
@@ -43,8 +42,6 @@ var _ webhook.Defaulter = &Environment{}
 // Default implements webhook.Defaulter so a webhook will be registered for the type
 func (r *Environment) Default() {
 	environmentlog.Info("default", "name", r.Name)
-
-	// TODO(user): fill in your defaulting logic.
 }
 
 // TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
@@ -54,28 +51,46 @@ var _ webhook.Validator = &Environment{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
 func (r *Environment) ValidateCreate() error {
-	environmentlog.Info("validate create", "name", r.Name)
+	environmentlog := environmentlog.WithValues("controllerKind", "Environment").
+		WithValues("name", r.Name).WithValues("namespace", r.Namespace)
 
-	fmt.Println("11111 @@@@@@@@@@@#################")
+	environmentlog.Info("validating the create request")
 
-	// TODO(user): fill in your validation logic upon object creation.
-	return nil
+	// We use the DNS-1123 format for environment names, so ensure it conforms to that specification
+	if len(validation.IsDNS1123Label(r.Name)) != 0 {
+		return fmt.Errorf("invalid environment name: %s, an environment resource name must start with a lower case alphabetical character, be under 63 characters, and can only consist of lower case alphanumeric characters or ‘-’", r.Name)
+	}
+
+	return r.validateIngressDomain()
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
 func (r *Environment) ValidateUpdate(old runtime.Object) error {
-	environmentlog.Info("validate update", "name", r.Name)
+	environmentlog := environmentlog.WithValues("controllerKind", "Environment").
+		WithValues("name", r.Name).WithValues("namespace", r.Namespace)
 
-	fmt.Println("22222 @@@@@@@@@@@#################")
+	environmentlog.Info("validating the update request")
 
-	// TODO(user): fill in your validation logic upon object update.
-	return nil
+	return r.validateIngressDomain()
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *Environment) ValidateDelete() error {
-	environmentlog.Info("validate delete", "name", r.Name)
+func (r *Environment) ValidateDelete() error { return nil }
 
-	// TODO(user): fill in your validation logic upon object deletion.
+// validateIngressDomain validates the ingress domain
+func (r *Environment) validateIngressDomain() error {
+	unstableConfig := r.Spec.Target
+	if unstableConfig != nil {
+		// if cluster type is Kubernetes, then Ingress Domain should be set
+		if unstableConfig.ClusterType == ConfigurationClusterType_Kubernetes && unstableConfig.IngressDomain == "" {
+			return fmt.Errorf("ingress domain cannot be empty if cluster is of type Kubernetes")
+		}
+
+		// if Ingress Domain is provided, we use the DNS-1123 format for ingress domain, so ensure it conforms to that specification
+		if unstableConfig.IngressDomain != "" && len(validation.IsDNS1123Subdomain(unstableConfig.IngressDomain)) != 0 {
+			return fmt.Errorf("invalid ingress domain: %q: an ingress domain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character",
+				unstableConfig.IngressDomain)
+		}
+	}
 	return nil
 }
