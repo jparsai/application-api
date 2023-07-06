@@ -14,4 +14,4 @@ spec:
         service:
           namespace: gitops
           name: gitops-appstudio-service-webhook-service
-          path: /validate-appstudio-redhat-com-v1beta1-environment
+          path: /convert
