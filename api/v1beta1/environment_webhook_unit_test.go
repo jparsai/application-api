@@ -198,7 +198,7 @@ func TestEnvironmentCreateValidatingWebhook(t *testing.T) {
 					Name: "kubernetes-environment-1",
 				},
 				Spec: EnvironmentSpec{
-					UnstableConfigurationFields: &UnstableEnvironmentConfiguration{
+					Target: &TargetConfiguration{
 						ClusterType: ConfigurationClusterType_OpenShift,
 						KubernetesClusterCredentials: KubernetesClusterCredentials{
 							IngressDomain: "domain",
@@ -330,7 +330,7 @@ func TestEnvironmentUpdateValidatingWebhook(t *testing.T) {
 					Name: "kubernetes-environment-1",
 				},
 				Spec: EnvironmentSpec{
-					UnstableConfigurationFields: &UnstableEnvironmentConfiguration{
+					Target: &TargetConfiguration{
 						ClusterType: ConfigurationClusterType_OpenShift,
 						KubernetesClusterCredentials: KubernetesClusterCredentials{
 							IngressDomain: "domain",

@@ -31,7 +31,6 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 
 	// copy Spec fields from v1alpha1 to v1beta1 version
 	dst.Spec = v1beta1.EnvironmentSpec{
-		Type:               v1beta1.EnvironmentType(src.Spec.Type),
 		DisplayName:        src.Spec.DisplayName,
 		DeploymentStrategy: v1beta1.DeploymentStrategyType(src.Spec.DeploymentStrategy),
 		ParentEnvironment:  src.Spec.ParentEnvironment,
@@ -40,6 +39,8 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 
 	// if v1alpha1 version has src.Spec.Configuration.Env field then copy it to v1beta1
 	if src.Spec.Configuration.Env != nil {
+		dst.Spec.Configuration.Env = []v1beta1.EnvVarPair{}
+
 		for _, env := range src.Spec.Configuration.Env {
 			dst.Spec.Configuration.Env = append(dst.Spec.Configuration.Env, v1beta1.EnvVarPair(env))
 		}
@@ -47,18 +48,24 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 
 	// if v1alpha1 version has Spec.Configuration.Target field then copy it to v1beta1
 	if src.Spec.Configuration.Target.DeploymentTargetClaim.ClaimName != "" {
-		dst.Spec.Configuration.Target = v1beta1.EnvironmentTarget{
-			DeploymentTargetClaim: v1beta1.DeploymentTargetClaimConfig{
-				ClaimName: src.Spec.Configuration.Target.DeploymentTargetClaim.ClaimName,
+		// This filed is renamed and moved to Target in v1beta1
+		dst.Spec.Target = &v1beta1.TargetConfiguration{
+			Claim: v1beta1.TargetClaim{
+				DeploymentTargetClaim: v1beta1.DeploymentTargetClaimConfig{
+					ClaimName: src.Spec.Configuration.Target.DeploymentTargetClaim.ClaimName,
+				},
 			},
 		}
 	}
 
 	// if v1alpha1 has Spec.UnstableConfigurationFields field then copy it to v1beta1
 	if src.Spec.UnstableConfigurationFields != nil {
-		dst.Spec.Target = &v1beta1.TargetConfiguration{
-			ClusterType: v1beta1.ConfigurationClusterType(string(src.Spec.UnstableConfigurationFields.ClusterType)),
+
+		if dst.Spec.Target == nil {
+			dst.Spec.Target = &v1beta1.TargetConfiguration{}
 		}
+
+		dst.Spec.Target.ClusterType = v1beta1.ConfigurationClusterType(string(src.Spec.UnstableConfigurationFields.ClusterType))
 
 		dst.Spec.Target.KubernetesClusterCredentials = v1beta1.KubernetesClusterCredentials{
 			TargetNamespace:            src.Spec.UnstableConfigurationFields.KubernetesClusterCredentials.TargetNamespace,
@@ -71,6 +78,9 @@ func (src *Environment) ConvertTo(dstRaw conversion.Hub) error {
 		}
 	}
 
+	// copy Status from v1alpha1 to v1beta1 version
+	dst.Status = v1beta1.EnvironmentStatus(src.Status)
+
 	return nil
 }
 
@@ -82,7 +92,7 @@ func (dst *Environment) ConvertFrom(srcRaw conversion.Hub) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	dst.Spec = EnvironmentSpec{
-		Type:               EnvironmentType(src.Spec.Type),
+		Type:               EnvironmentType(v1beta1.EnvironmentType_NonPOC),
 		DisplayName:        src.Spec.DisplayName,
 		DeploymentStrategy: DeploymentStrategyType(src.Spec.DeploymentStrategy),
 		ParentEnvironment:  src.Spec.ParentEnvironment,
@@ -90,15 +100,17 @@ func (dst *Environment) ConvertFrom(srcRaw conversion.Hub) error {
 	}
 
 	if src.Spec.Configuration.Env != nil {
+		dst.Spec.Configuration.Env = []EnvVarPair{}
+
 		for _, env := range src.Spec.Configuration.Env {
 			dst.Spec.Configuration.Env = append(dst.Spec.Configuration.Env, EnvVarPair(env))
 		}
 	}
 
-	if src.Spec.Configuration.Target.DeploymentTargetClaim.ClaimName != "" {
+	if src.Spec.Target.Claim.DeploymentTargetClaim.ClaimName != "" {
 		dst.Spec.Configuration.Target = EnvironmentTarget{
 			DeploymentTargetClaim: DeploymentTargetClaimConfig{
-				ClaimName: src.Spec.Configuration.Target.DeploymentTargetClaim.ClaimName,
+				ClaimName: src.Spec.Target.Claim.DeploymentTargetClaim.ClaimName,
 			},
 		}
 	}
@@ -118,6 +130,8 @@ func (dst *Environment) ConvertFrom(srcRaw conversion.Hub) error {
 			ClusterResources:           src.Spec.Target.KubernetesClusterCredentials.ClusterResources,
 		}
 	}
+
+	dst.Status = EnvironmentStatus(src.Status)
 
 	return nil
 }

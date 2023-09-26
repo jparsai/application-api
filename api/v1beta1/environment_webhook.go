@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha1
+package v1beta1
 
 import (
 	"fmt"
@@ -27,6 +27,12 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 )
 
+const (
+	MissingIngressDomain    = "ingress domain cannot be empty if cluster is of type Kubernetes"
+	InvalidDNS1123Subdomain = "invalid ingress domain: %q: an ingress domain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character"
+	InvalidAPIURL           = ": API URL must be an absolute URL starting with an 'https' scheme "
+)
+
 // log is for logging in this package.
 var environmentlog = logf.Log.WithName("environment-resource")
 
@@ -36,26 +42,23 @@ func (r *Environment) SetupWebhookWithManager(mgr ctrl.Manager) error {
 		Complete()
 }
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-
-//+kubebuilder:webhook:path=/mutate-appstudio-redhat-com-v1alpha1-environment,mutating=true,failurePolicy=fail,sideEffects=None,groups=appstudio.redhat.com,resources=environments,verbs=create;update,versions=v1alpha1,name=menvironment.kb.io,admissionReviewVersions={v1,v1beta1}
+//+kubebuilder:webhook:path=/mutate-appstudio-redhat-com-v1beta1-environment,mutating=true,failurePolicy=fail,sideEffects=None,groups=appstudio.redhat.com,resources=environments,verbs=create;update,versions=v1beta1,name=menvironment.kb.io,admissionReviewVersions={v1,v1beta1}
 
 var _ webhook.Defaulter = &Environment{}
 
 // Default implements webhook.Defaulter so a webhook will be registered for the type
-func (r *Environment) Default() {
-
-	// TODO(user): fill in your defaulting logic.
-}
+func (r *Environment) Default() {}
 
 // TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
-//+kubebuilder:webhook:path=/validate-appstudio-redhat-com-v1alpha1-environment,mutating=false,failurePolicy=fail,sideEffects=None,groups=appstudio.redhat.com,resources=environments,verbs=create;update,versions=v1alpha1,name=venvironment.kb.io,admissionReviewVersions={v1,v1beta1}
+//+kubebuilder:webhook:path=/validate-appstudio-redhat-com-v1beta1-environment,mutating=false,failurePolicy=fail,sideEffects=None,groups=appstudio.redhat.com,resources=environments,verbs=create;update,versions=v1beta1,name=venvironment.kb.io,admissionReviewVersions={v1,v1beta1}
 
 var _ webhook.Validator = &Environment{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
 func (r *Environment) ValidateCreate() error {
-	environmentlog := environmentlog.WithValues("controllerKind", "Environment").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
+	environmentlog := environmentlog.WithValues("controllerKind", "Environment").
+		WithValues("name", r.Name).WithValues("namespace", r.Namespace)
+
 	environmentlog.Info("validating the create request")
 
 	// We use the DNS-1123 format for environment names, so ensure it conforms to that specification
@@ -68,22 +71,20 @@ func (r *Environment) ValidateCreate() error {
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
 func (r *Environment) ValidateUpdate(old runtime.Object) error {
-	environmentlog := environmentlog.WithValues("controllerKind", "Environment").WithValues("name", r.Name).WithValues("namespace", r.Namespace)
+	environmentlog := environmentlog.WithValues("controllerKind", "Environment").
+		WithValues("name", r.Name).WithValues("namespace", r.Namespace)
+
 	environmentlog.Info("validating the update request")
 
 	return r.validateEnvironment()
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *Environment) ValidateDelete() error {
-
-	// TODO(user): fill in your validation logic upon object deletion.
-	return nil
-}
+func (r *Environment) ValidateDelete() error { return nil }
 
 // validateEnvironment validates the ingress domain and API URL
 func (r *Environment) validateEnvironment() error {
-	unstableConfig := r.Spec.UnstableConfigurationFields
+	unstableConfig := r.Spec.Target
 	if unstableConfig != nil {
 		// if cluster type is Kubernetes, then Ingress Domain should be set
 		if unstableConfig.ClusterType == ConfigurationClusterType_Kubernetes && unstableConfig.IngressDomain == "" {
@@ -97,8 +98,8 @@ func (r *Environment) validateEnvironment() error {
 
 	}
 
-	if r.Spec.UnstableConfigurationFields != nil && r.Spec.UnstableConfigurationFields.KubernetesClusterCredentials.APIURL != "" {
-		if _, err := url.ParseRequestURI(r.Spec.UnstableConfigurationFields.KubernetesClusterCredentials.APIURL); err != nil {
+	if r.Spec.Target != nil && r.Spec.Target.KubernetesClusterCredentials.APIURL != "" {
+		if _, err := url.ParseRequestURI(r.Spec.Target.KubernetesClusterCredentials.APIURL); err != nil {
 			return fmt.Errorf(err.Error() + InvalidAPIURL)
 		}
 	}

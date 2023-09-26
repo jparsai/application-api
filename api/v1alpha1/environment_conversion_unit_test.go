@@ -75,7 +75,6 @@ func TestV1toV2Conversion(t *testing.T) {
 					Namespace: "test-namespace",
 				},
 				Spec: v1beta1.EnvironmentSpec{
-					Type:               v1beta1.EnvironmentType_POC,
 					DisplayName:        "Test Name",
 					DeploymentStrategy: v1beta1.DeploymentStrategy_AppStudioAutomated,
 					ParentEnvironment:  "dev",
@@ -84,11 +83,6 @@ func TestV1toV2Conversion(t *testing.T) {
 						Env: []v1beta1.EnvVarPair{
 							{Name: "env-key-1", Value: "env-value-1"},
 							{Name: "env-key-2", Value: "env-value-2"},
-						},
-						Target: v1beta1.EnvironmentTarget{
-							DeploymentTargetClaim: v1beta1.DeploymentTargetClaimConfig{
-								ClaimName: "test-claim",
-							},
 						},
 					},
 					Target: &v1beta1.TargetConfiguration{
@@ -101,6 +95,12 @@ func TestV1toV2Conversion(t *testing.T) {
 							AllowInsecureSkipTLSVerify: true,
 							Namespaces:                 []string{"namespace-1", "namespace-2"},
 							ClusterResources:           true,
+						},
+
+						Claim: v1beta1.TargetClaim{
+							DeploymentTargetClaim: v1beta1.DeploymentTargetClaimConfig{
+								ClaimName: "test-claim",
+							},
 						},
 					},
 				},
@@ -145,7 +145,6 @@ func TestV1toV2Conversion(t *testing.T) {
 					Namespace: "test-namespace",
 				},
 				Spec: v1beta1.EnvironmentSpec{
-					Type:               v1beta1.EnvironmentType_POC,
 					DisplayName:        "Test Name",
 					DeploymentStrategy: v1beta1.DeploymentStrategy_AppStudioAutomated,
 					ParentEnvironment:  "dev",
@@ -209,7 +208,6 @@ func TestV1toV2Conversion(t *testing.T) {
 					Namespace: "test-namespace",
 				},
 				Spec: v1beta1.EnvironmentSpec{
-					Type:               v1beta1.EnvironmentType_POC,
 					DisplayName:        "Test Name",
 					DeploymentStrategy: v1beta1.DeploymentStrategy_AppStudioAutomated,
 					ParentEnvironment:  "dev",
@@ -264,7 +262,6 @@ func TestV1toV2Conversion(t *testing.T) {
 					Namespace: "test-namespace",
 				},
 				Spec: v1beta1.EnvironmentSpec{
-					Type:               v1beta1.EnvironmentType_POC,
 					DisplayName:        "Test Name",
 					DeploymentStrategy: v1beta1.DeploymentStrategy_AppStudioAutomated,
 					ParentEnvironment:  "dev",

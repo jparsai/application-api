@@ -22,9 +22,6 @@ import (
 
 // EnvironmentSpec defines the desired state of Environment
 type EnvironmentSpec struct {
-	// DEPRECATED: Type is whether the Environment is a POC or non-POC environment
-	// - This field is deprecated, and should not be used.
-	Type EnvironmentType `json:"type,omitempty"`
 
 	// DisplayName is the user-visible, user-definable name for the environment (but not used for functional requirements)
 	DisplayName string `json:"displayName"`
@@ -86,6 +83,11 @@ type TargetConfiguration struct {
 
 	// KubernetesClusterCredentials contains cluster credentials for a target Kubernetes/OpenShift cluster.
 	KubernetesClusterCredentials `json:"kubernetesCredentials,omitempty"`
+
+	// Target is used to reference a DeploymentTargetClaim for a target Environment.
+	// The Environment controller uses the referenced DeploymentTargetClaim to access its bounded
+	// DeploymentTarget with cluster credential secret.
+	Claim TargetClaim `json:"claim,omitempty"`
 }
 
 type ConfigurationClusterType string
@@ -151,15 +153,10 @@ type KubernetesClusterCredentials struct {
 type EnvironmentConfiguration struct {
 	// Env is an array of standard environment vairables
 	Env []EnvVarPair `json:"env"`
-
-	// Target is used to reference a DeploymentTargetClaim for a target Environment.
-	// The Environment controller uses the referenced DeploymentTargetClaim to access its bounded
-	// DeploymentTarget with cluster credential secret.
-	Target EnvironmentTarget `json:"target,omitempty"`
 }
 
-// EnvironmentTarget provides the configuration for a deployment target.
-type EnvironmentTarget struct {
+// TargetClaim provides the configuration for a deployment target.
+type TargetClaim struct {
 	DeploymentTargetClaim DeploymentTargetClaimConfig `json:"deploymentTargetClaim"`
 }
 
@@ -190,7 +187,7 @@ type Environment struct {
 // GetDeploymentTargetClaimName returns the name of the DeploymentTargetClaim
 // associated with this Environment
 func (e *Environment) GetDeploymentTargetClaimName() string {
-	return e.Spec.Configuration.Target.DeploymentTargetClaim.ClaimName
+	return e.Spec.Target.Claim.DeploymentTargetClaim.ClaimName
 }
 
 //+kubebuilder:object:root=true

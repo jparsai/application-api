@@ -175,11 +175,10 @@ type EnvironmentStatus struct {
 	Conditions []metav1.Condition `json:"conditions,omitempty"`
 }
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 // +kubebuilder:resource:path=environments,shortName=env
-// +kubebuilder:deprecatedversion:warning="The v1alpha1 version is deprecated and will be automatically migrated to v1beta1"
-
+// +kubebuilder:deprecatedversion:warning="Environment 'v1alpha1' version is deprecated, in favour of 'v1beta1'. 'v1alpha1' will be removed in a future release. See 'https://github.com/redhat-appstudio/application-api/pull/66' for migration steps."
 // Environment is the Schema for the environments API
 type Environment struct {
 	metav1.TypeMeta   `json:",inline"`

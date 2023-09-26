@@ -1240,8 +1240,9 @@ spec:
   scope: Namespaced
   versions:
   - deprecated: true
-    deprecationWarning: The v1alpha1 version is deprecated and will be automatically
-      migrated to v1beta1
+    deprecationWarning: Environment 'v1alpha1' version is deprecated, in favour of
+      'v1beta1'. 'v1alpha1' will be removed in a future release. See 'https://github.com/redhat-appstudio/application-api/pull/66'
+      for migration steps.
     name: v1alpha1
     schema:
       openAPIV3Schema:
@@ -1523,24 +1524,6 @@ spec:
                       - value
                       type: object
                     type: array
-                  target:
-                    description: Target is used to reference a DeploymentTargetClaim
-                      for a target Environment. The Environment controller uses the
-                      referenced DeploymentTargetClaim to access its bounded DeploymentTarget
-                      with cluster credential secret.
-                    properties:
-                      deploymentTargetClaim:
-                        description: DeploymentTargetClaimConfig specifies the DeploymentTargetClaim
-                          details for a given Environment.
-                        properties:
-                          claimName:
-                            type: string
-                        required:
-                        - claimName
-                        type: object
-                    required:
-                    - deploymentTargetClaim
-                    type: object
                 required:
                 - env
                 type: object
@@ -1567,6 +1550,24 @@ spec:
               target:
                 description: See comment on TargetConfiguration for details.
                 properties:
+                  claim:
+                    description: Target is used to reference a DeploymentTargetClaim
+                      for a target Environment. The Environment controller uses the
+                      referenced DeploymentTargetClaim to access its bounded DeploymentTarget
+                      with cluster credential secret.
+                    properties:
+                      deploymentTargetClaim:
+                        description: DeploymentTargetClaimConfig specifies the DeploymentTargetClaim
+                          details for a given Environment.
+                        properties:
+                          claimName:
+                            type: string
+                        required:
+                        - claimName
+                        type: object
+                    required:
+                    - deploymentTargetClaim
+                    type: object
                   clusterType:
                     description: ClusterType indicates whether the target environment
                       is Kubernetes or OpenShift
@@ -1634,11 +1635,6 @@ spec:
                     - targetNamespace
                     type: object
                 type: object
-              type:
-                description: 'DEPRECATED: Type is whether the Environment is a POC
-                  or non-POC environment - This field is deprecated, and should not
-                  be used.'
-                type: string
             required:
             - deploymentStrategy
             - displayName
