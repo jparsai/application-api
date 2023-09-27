@@ -187,7 +187,10 @@ type Environment struct {
 // GetDeploymentTargetClaimName returns the name of the DeploymentTargetClaim
 // associated with this Environment
 func (e *Environment) GetDeploymentTargetClaimName() string {
-	return e.Spec.Target.Claim.DeploymentTargetClaim.ClaimName
+	if e.Spec.Target != nil {
+		return e.Spec.Target.Claim.DeploymentTargetClaim.ClaimName
+	}
+	return ""
 }
 
 //+kubebuilder:object:root=true

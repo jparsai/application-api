@@ -107,15 +107,15 @@ func (dst *Environment) ConvertFrom(srcRaw conversion.Hub) error {
 		}
 	}
 
-	if src.Spec.Target.Claim.DeploymentTargetClaim.ClaimName != "" {
-		dst.Spec.Configuration.Target = EnvironmentTarget{
-			DeploymentTargetClaim: DeploymentTargetClaimConfig{
-				ClaimName: src.Spec.Target.Claim.DeploymentTargetClaim.ClaimName,
-			},
-		}
-	}
-
 	if src.Spec.Target != nil {
+		if src.Spec.Target.Claim.DeploymentTargetClaim.ClaimName != "" {
+			dst.Spec.Configuration.Target = EnvironmentTarget{
+				DeploymentTargetClaim: DeploymentTargetClaimConfig{
+					ClaimName: src.Spec.Target.Claim.DeploymentTargetClaim.ClaimName,
+				},
+			}
+		}
+
 		dst.Spec.UnstableConfigurationFields = &UnstableEnvironmentConfiguration{
 			ClusterType: ConfigurationClusterType(string(src.Spec.Target.ClusterType)),
 		}
