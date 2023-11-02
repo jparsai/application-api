@@ -15,13 +15,13 @@ limitations under the License.
 */
 
 // Package v1beta1 contains API Schema definitions for the appstudio v1beta1 API group
-//+kubebuilder:object:generate=true
-//+groupName=appstudio.redhat.com
+// +kubebuilder:object:generate=true
+// +groupName=appstudio.redhat.com
 package v1beta1
 
 import (
+	"github.com/redhat-appstudio/application-api/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/scheme"
 )
 
 var (
@@ -29,7 +29,7 @@ var (
 	GroupVersion = schema.GroupVersion{Group: "appstudio.redhat.com", Version: "v1beta1"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
-	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}
+	SchemeBuilder = &v1alpha1.Builder{GroupVersion: GroupVersion}
 
 	// AddToScheme adds the types in this group-version to the given scheme.
 	AddToScheme = SchemeBuilder.AddToScheme
