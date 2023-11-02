@@ -175,11 +175,11 @@ type EnvironmentStatus struct {
 	Conditions []metav1.Condition `json:"conditions,omitempty"`
 }
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
-
-// Environment is the Schema for the environments API
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 // +kubebuilder:resource:path=environments,shortName=env
+// +kubebuilder:deprecatedversion:warning="Environment 'v1alpha1' version is deprecated, in favour of 'v1beta1'. 'v1alpha1' will be removed in a future release."
+// Environment is the Schema for the environments API
 type Environment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

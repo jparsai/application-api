@@ -17,7 +17,10 @@ spec:
     singular: environment
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - deprecated: true
+    deprecationWarning: Environment 'v1alpha1' version is deprecated, in favour of
+      'v1beta1'. 'v1alpha1' will be removed in a future release.
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: Environment is the Schema for the environments API
