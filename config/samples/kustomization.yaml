@@ -10,4 +10,5 @@ resources:
 - appstudio_v1alpha1_deploymenttargetclass.yaml
 - appstudio_v1alpha1_deploymenttargetclaim.yaml
 - appstudio_v1alpha1_deploymenttarget.yaml
+- appstudio_v1beta1_environment.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples
