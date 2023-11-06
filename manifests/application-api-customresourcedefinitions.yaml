@@ -1238,9 +1238,20 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
-  creationTimestamp: null
+    service.beta.openshift.io/inject-cabundle: "true"
   name: environments.appstudio.redhat.com
 spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: gitops-appstudio-service-webhook-service
+          namespace: gitops
+          path: /convert
+      conversionReviewVersions:
+      - v1alpha1
+      - v1beta1
   group: appstudio.redhat.com
   names:
     kind: Environment
