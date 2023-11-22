@@ -969,11 +969,6 @@ func (in *EnvironmentSpec) DeepCopyInto(out *EnvironmentSpec) {
 		copy(*out, *in)
 	}
 	in.Configuration.DeepCopyInto(&out.Configuration)
-	if in.UnstableConfigurationFields != nil {
-		in, out := &in.UnstableConfigurationFields, &out.UnstableConfigurationFields
-		*out = new(UnstableEnvironmentConfiguration)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Target != nil {
 		in, out := &in.Target, &out.Target
 		*out = new(TargetConfiguration)
