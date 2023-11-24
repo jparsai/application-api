@@ -48,7 +48,7 @@ type EnvironmentSpec struct {
 
 	// DEPRECATED: UnstableConfigurationFields was experimental/prototype: the API was not finalized here, and is subject to breaking changes. See comment on UnstableEnvironmentConfiguration for details.
 	// - This field is deprecated, and should not be used, it is replaced by EnvironmentSpec.Target
-	//UnstableConfigurationFields *UnstableEnvironmentConfiguration `json:"unstableConfigurationFields,omitempty"`
+	UnstableConfigurationFields *UnstableEnvironmentConfiguration `json:"unstableConfigurationFields,omitempty"`
 
 	// See comment on TargetConfiguration for details.
 	Target *TargetConfiguration `json:"target,omitempty"`
@@ -161,7 +161,7 @@ type EnvironmentConfiguration struct {
 	// Target is used to reference a DeploymentTargetClaim for a target Environment.
 	// The Environment controller uses the referenced DeploymentTargetClaim to access its bounded
 	// DeploymentTarget with cluster credential secret.
-	//Target EnvironmentTarget `json:"target,omitempty"`
+	Target EnvironmentTarget `json:"target,omitempty"`
 }
 
 // EnvironmentTarget provides the configuration for a deployment target.
