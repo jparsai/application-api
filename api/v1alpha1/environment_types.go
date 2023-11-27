@@ -161,13 +161,13 @@ type EnvironmentConfiguration struct {
 	// Target is used to reference a DeploymentTargetClaim for a target Environment.
 	// The Environment controller uses the referenced DeploymentTargetClaim to access its bounded
 	// DeploymentTarget with cluster credential secret.
-	Target EnvironmentTarget `json:"target,omitempty"`
+	// Target EnvironmentTarget `json:"target,omitempty"`
 }
 
 // EnvironmentTarget provides the configuration for a deployment target.
-type EnvironmentTarget struct {
+/*type EnvironmentTarget struct {
 	DeploymentTargetClaim DeploymentTargetClaimConfig `json:"deploymentTargetClaim"`
-}
+}*/
 
 // DeploymentTargetClaimConfig specifies the DeploymentTargetClaim details for a given Environment.
 type DeploymentTargetClaimConfig struct {
@@ -194,11 +194,11 @@ type Environment struct {
 
 // GetDeploymentTargetClaimName returns the name of the DeploymentTargetClaim
 // associated with this Environment
+/*
 func (e *Environment) GetDeploymentTargetClaimName() string {
 	return e.Spec.Configuration.Target.DeploymentTargetClaim.ClaimName
-}
-
-func (e *Environment) GetDeploymentTargetClaimName1() string {
+}*/
+func (e *Environment) GetDeploymentTargetClaimName() string {
 	if e.Spec.Target != nil {
 		return e.Spec.Target.Claim.DeploymentTargetClaim.ClaimName
 	}
